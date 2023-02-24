@@ -1,0 +1,15 @@
+name: Periodic Health Check
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  periodic_health_check:
+    runs-on: ubuntu-20.4
+    steps:
+      - name: Check the deployed service URL
+        uses: jtalk/url-health-check-action@v3
+        with:
+          url: http://localhost:5000/health
