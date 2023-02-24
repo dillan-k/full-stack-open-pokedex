@@ -42,7 +42,7 @@ jobs:
           ${{ failure()
             && github.event_name == 'push'
             && !contains(join(toJson(github.event.commits.*.message)), '#skip')
-            && !contains(join(toJson(github.event.commits.*.message)), '#shh')
+            && contains(join(toJson(github.event.commits.*.message)), '#notify')
           }}
         uses: rjstone/discord-webhook-notify@v1
         with:
@@ -54,7 +54,7 @@ jobs:
           ${{ success()
             && github.event_name == 'push'
             && !contains(join(toJson(github.event.commits.*.message)), '#skip')
-            && !contains(join(toJson(github.event.commits.*.message)), '#shh')
+            && contains(join(toJson(github.event.commits.*.message)), '#notify')
           }}
         uses: rjstone/discord-webhook-notify@v1
         with:
