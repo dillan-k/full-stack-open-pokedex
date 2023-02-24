@@ -2,6 +2,7 @@ name: Periodic Health Check
 
 on:
   schedule:
+    - chron: '5 * * * *'
 
 jobs:
   periodic_health_check:
@@ -11,5 +12,5 @@ jobs:
         uses: jtalk/url-health-check-action@v3
         with:
           url: https://holy-snowflake-9492.fly.dev/
-          max-attempts: 20
-          retry-delay: 30s
+          max-attempts: 3
+          retry-delay: 5s
