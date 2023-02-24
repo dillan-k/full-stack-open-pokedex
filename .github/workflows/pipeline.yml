@@ -33,9 +33,9 @@ jobs:
           command: npm run test:e2e
           start: npm run start-prod
           wait-on: http://localhost:5000
-      - if: ${{ github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+      - if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
         uses: superfly/flyctl-actions/setup-flyctl@master
-      - if: ${{ github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+      - if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
         run: flyctl deploy --remote-only
 
   tag_release:
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-20.04
     permissions:
       contents: write
-    if: ${{ github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#skip') }}
+    if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
     steps:
       - uses: actions/checkout@v3
         with:
