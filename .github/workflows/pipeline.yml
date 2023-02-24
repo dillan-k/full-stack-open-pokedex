@@ -38,16 +38,24 @@ jobs:
       - if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') }}
         run: flyctl deploy --remote-only
       - name: failed notification
-        if: ${{ failure() && github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') && |
-          (!contains(join(toJson(github.event.commits.*.message)), '#shh')) }}
+        if: >
+          ${{ failure()
+            && github.event_name == 'push'
+            && !contains(join(toJson(github.event.commits.*.message)), '#skip')
+            && !contains(join(toJson(github.event.commits.*.message)), '#shh')
+          }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: error
           details: Deployment failed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: success notification
-        if: ${{ success() && github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip') && |
-          (!contains(join(toJson(github.event.commits.*.message)), '#shh')) }}
+        if: >
+          ${{ success()
+            && github.event_name == 'push'
+            && !contains(join(toJson(github.event.commits.*.message)), '#skip')
+            && !contains(join(toJson(github.event.commits.*.message)), '#shh')
+          }}
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
